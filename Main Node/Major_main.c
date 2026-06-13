@@ -1,8 +1,6 @@
 #include<lpc21xx.h>
 #include "Major_adc.h"
 #include "Major_adc_defines.h"
-//#include "Major_rtc_def.h"
-//#include "Major_rtc_defines.h"
 #include "Major_lcd.h"
 #include "Major_adc.h"
 #include "Major_adc_defines.h"
@@ -15,100 +13,6 @@ f32 voltage;
 int temp;
 int Ful;
 u8 tp,tpd;
-
-/*int main()
-{
-   InitLCD();
-   PINSEL0 &=~(3<<30);
-   //CmdLCD(0x80);
-   //Init_ADC(CH1);
-   while(1)
-   {
-      Read_ADC(CH1,&voltage,&adcvalue);
-     CmdLCD(0x80);
-	 FltLCD(voltage);
-	 delay_s(5);
-	 CmdLCD(0x01);
-	 CmdLCD(0x80);
-	 delay_ms(500);
-	 CharLCD('#');
-	 delay_ms(100);
-	 IntLCD(adcvalue);
-	 delay_ms(200);
-	 }
-	 //while(1);
-	 while(1)
-	 {
-	   	CmdLCD(0x80);
-	    if(ResetDs18b20())
-	    StrLCD("sensor ok");
-		else
-		StrLCD("sensor not okay");
-		delay_ms(1000);
-	    temp=ReadTemp();
-		IntLCD(temp);
-		CmdLCD(0x80);
-		StrLCD("temp :");
-		tp=temp>>4;
-		tpd=(temp&0x0f)*625/1000;
-		//tpd=(temp& 0x08) ? '5' : '0';
-		IntLCD(tp);
-		//delay_ms(500);
-		//StrLCD("hello");
-		//delay_ms(500);
-		 CharLCD('.');
-		IntLCD(tpd);
-		CharLCD(' ');
-		CharLCD('c');
-		//delay_s(1);
-		CmdLCD(0x01);
-		CmdLCD(0x80);	
-	  }	
-
-
-} */
-/*  
-int main()
-{			    InitLCD();
-				Init_ADC(1);
-				while(1)
-				{
-			    CmdLCD(0x01);
-				delay_s(2);
-                StrLCD("DASHBOARD");
-                CmdLCD(0xc0);
-                StrLCD("T:");
-                temp=ReadTemp();
-                IntLCD(temp>>4);
-                CharLCD(223);
-                CharLCD('C');
-			//	Read_ADC(CH1,&voltage,&adcvalue);
-			//	CmdLCD(0xc0);
-			//	Ful=Read_Fuel(); 
-				}				 
-}
-  */
-/*
-int main()
-{
-int fuel;
-InitLCD();
-delay_us(100);
-Init_ADC(CH1);
- while(1)
- {
-//Read_ADC(CH1,&voltage,&adcvalue);
-CmdLCD(0x80);
- StrLCD("F:");
-//Ful=(adcvalue);
-fuel= 4; //Read_Fuel();
-
-IntLCD(fuel);
-CharLCD('%');
-
-delay_s(3);
-}
-}*/
 
 void temp_symbol(){
    u8 i;
@@ -169,13 +73,7 @@ int main(void)
    StrLCD("Indicator ");
     /* Load custom arrows */
     LoadCustomChars();
-   /* StoreCustCharFont(0); 
-    StoreCustCharFont1(25);
-    StoreCustCharFont2(50);
-    StoreCustCharFont3(75);
-    StoreCustCharFont4(100);  */
-
-    /* Show steady <> initially */
+  
     CmdLCD(0xC0 + 13);
     CharLCD(5);      // <
     CmdLCD(0xC0 + 15);
@@ -240,32 +138,21 @@ int main(void)
         //cmdlcd(0xD4);
         temp = ReadTemp();
         tp  = temp >> 4;
-        //tpd = (temp & 0x08) ? '5' : '0';
         CmdLCD(0xD4);
        StrLCD("Temp ");
        //CharLCD(7);
         StrLCD(" : ");
         IntLCD(tp);
-       //CharLCD('.');
-      // CharLCD(tpd);
         StrLCD(" C   ");
 
-      //if (C1GSR & (1 << 0))
-      //{
-        /****Fuel Node****/
-		//if(rxF.ID==1)
 		{
 
         CAN1_Rx(&rxF);
 		 CmdLCD(0x94);
-		  // StrLCD(" id");
-		  // FltLCD(rxF.ID);
-		   	//CmdLCD(0x9a);
 	 StrLCD(" Fuel: ");
 	IntLCD(rxF.Data1);
 		CharLCD('%');
-	// CmdLCD(0x9a);
-//	StrLCD("%   "); 
+	
 	percent = rxF.Data1;
 		if(percent<=25){
 			CharLCD(2);
@@ -291,42 +178,6 @@ int main(void)
 		 	CharLCD(5);
 		}
                
-
-
-
-
-
-	
-        /*Fuel message
-       // if(rxF.ID == 0x301)
-        {
-
-                //percent = convert(rxF.Data1);
-			   percent =   (rxF.Data1);
-                CmdLCD(0x94);
-               StrLCD("FUEL ");
-               IntLCD(percent);
-                StrLCD("%   ");
-                if(percent <= 0){
-                         level=0;
-                }
-                else if(percent <= 25){
-                     level=1 ;
-                }
-                else if(percent <= 50){
-                      level=2;
-                }
-                else if(percent <= 75){
-                       level=3;
-                }
-                else {
-                        level=4; 
-                }
-
-                CmdLCD(0x94+13);
-               CharLCD(level);
-        }
-        } */
 
         delay_ms(200);
 		//}
