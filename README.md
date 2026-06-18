@@ -11,8 +11,6 @@ The system consists of three independent CAN nodes:
 2. Indicator Node
 3. Fuel Node
 
-All nodes communicate using CAN Bus through MCP2551 CAN Transceivers.
-
 The Main Node reads engine temperature, receives fuel information from the Fuel Node, and sends indicator commands to the Indicator Node.
 
 ---
@@ -233,9 +231,9 @@ Connected to MCP2551
 
 # CAN Bus Wiring
 
-MCP2551 Node1 CANH ---- CANH Node2 ---- CANH Node3
+ Node1 CANH ---- CANH Node2 ---- CANH Node3
 
-MCP2551 Node1 CANL ---- CANL Node2 ---- CANL Node3
+ Node1 CANL ---- CANL Node2 ---- CANL Node3
 
 120Ω Termination Resistor at both ends of CAN Bus.
 
